@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking - Smart City</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/parking.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-city"></i>
+                Smart City
+            </a>
+            <div class="mobile-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="complaint.html">Complaint</a>
+                <a href="bill.html">Bills</a>
+                <a href="traffic.html">Traffic</a>
+                <a href="parking.html" class="active">Parking</a>
+                <a href="dashboard.html">Admin Portal</a>
+                <a href="contact.html">Contact</a>
+                <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+                <button class="theme-toggle" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 style="color: white;">Smart Parking Availability</h1>
+            <p>Find and book parking slots in real-time across the city.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="parkingSearch" placeholder="Enter destination or area name...">
+            <button class="btn btn-primary"><i class="fa-solid fa-search"></i> Search</button>
+        </div>
+
+        <div class="parking-grid" id="parkingGrid">
+            
+            <!-- Parking 1 -->
+            <div class="card glass parking-card">
+                <div class="parking-header">
+                    <div class="parking-title">Central Mall Parking</div>
+                    <div class="parking-distance"><i class="fa-solid fa-location-arrow"></i> 1.2 km</div>
+                </div>
+                <div class="slots-container">
+                    <div class="slot-stat">
+                        <span style="color: var(--primary-blue);">250</span>
+                        <p>Total</p>
+                    </div>
+                    <div class="slot-stat">
+                        <span class="text-success">45</span>
+                        <p>Available</p>
+                    </div>
+                    <div class="slot-stat">
+                        <span class="text-danger">205</span>
+                        <p>Occupied</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block">Book Slot (₹50/hr)</button>
+            </div>
+
+            <!-- Parking 2 -->
+            <div class="card glass parking-card">
+                <div class="parking-header">
+                    <div class="parking-title">Tech Hub Basement</div>
+                    <div class="parking-distance"><i class="fa-solid fa-location-arrow"></i> 3.5 km</div>
+                </div>
+                <div class="slots-container">
+                    <div class="slot-stat">
+                        <span style="color: var(--primary-blue);">500</span>
+                        <p>Total</p>
+                    </div>
+                    <div class="slot-stat">
+                        <span class="text-success">120</span>
+                        <p>Available</p>
+                    </div>
+                    <div class="slot-stat">
+                        <span class="text-danger">380</span>
+                        <p>Occupied</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block">Book Slot (₹40/hr)</button>
+            </div>
+
+            <!-- Parking 3 -->
+            <div class="card glass parking-card">
+                <div class="parking-header">
+                    <div class="parking-title">City Square Open Parking</div>
+                    <div class="parking-distance"><i class="fa-solid fa-location-arrow"></i> 0.8 km</div>
+                </div>
+                <div class="slots-container">
+                    <div class="slot-stat">
+                        <span style="color: var(--primary-blue);">150</span>
+                        <p>Total</p>
+                    </div>
+                    <div class="slot-stat">
+                        <span class="text-success">0</span>
+                        <p>Available</p>
+                    </div>
+                    <div class="slot-stat">
+                        <span class="text-danger">150</span>
+                        <p>Occupied</p>
+                    </div>
+                </div>
+                <button class="btn btn-outline btn-block" disabled style="opacity: 0.5; cursor: not-allowed;">Full</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 60px;">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Smart City Services Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+    <script src="js/parking.js"></script>
+</body>
+</html>

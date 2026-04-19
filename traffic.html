@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Traffic Updates - Smart City</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/traffic.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-city"></i>
+                Smart City
+            </a>
+            <div class="mobile-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="complaint.html">Complaint</a>
+                <a href="bill.html">Bills</a>
+                <a href="traffic.html" class="active">Traffic</a>
+                <a href="parking.html">Parking</a>
+                <a href="dashboard.html">Admin Portal</a>
+                <a href="contact.html">Contact</a>
+                <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+                <button class="theme-toggle" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header text-center">
+        <div class="container">
+            <h1 style="color: white;">Live Traffic Updates</h1>
+            <p>Real-time information on road closures, congestion, and public transport delays.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="container">
+            
+            <div class="search-bar">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search by area, road name, or zip code...">
+            </div>
+
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterTraffic('all')">All Alerts</button>
+                <button class="filter-btn" onclick="filterTraffic('closure')">Road Closures</button>
+                <button class="filter-btn" onclick="filterTraffic('congestion')">Heavy Congestion</button>
+                <button class="filter-btn" onclick="filterTraffic('delay')">Transit Delays</button>
+            </div>
+
+            <div class="traffic-grid" id="trafficGrid">
+                
+                <!-- Alert 1 -->
+                <div class="card glass alert-card closure" data-category="closure">
+                    <div class="alert-header">
+                        <div class="alert-title">
+                            <i class="fa-solid fa-road-barrier" style="color: var(--danger);"></i>
+                            Main Street Bridge
+                        </div>
+                        <span class="badge closure">CLOSED</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Bridge closed for emergency maintenance. Please use the East River detour route.</p>
+                    <div class="alert-time">
+                        <i class="fa-regular fa-clock"></i> Updated 10 mins ago
+                    </div>
+                </div>
+
+                <!-- Alert 2 -->
+                <div class="card glass alert-card congestion" data-category="congestion">
+                    <div class="alert-header">
+                        <div class="alert-title">
+                            <i class="fa-solid fa-car-side" style="color: var(--warning);"></i>
+                            Tech Park Avenue
+                        </div>
+                        <span class="badge congestion">CONGESTION</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Heavy traffic due to an accident near Gate 3. Expect delays up to 45 minutes.</p>
+                    <div class="alert-time">
+                        <i class="fa-regular fa-clock"></i> Updated 25 mins ago
+                    </div>
+                </div>
+
+                <!-- Alert 3 -->
+                <div class="card glass alert-card delay" data-category="delay">
+                    <div class="alert-header">
+                        <div class="alert-title">
+                            <i class="fa-solid fa-train-subway" style="color: #8b5cf6;"></i>
+                            Blue Line Metro
+                        </div>
+                        <span class="badge delay">DELAYED</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Trains running 15 minutes behind schedule due to signal fault at Central Station.</p>
+                    <div class="alert-time">
+                        <i class="fa-regular fa-clock"></i> Updated 5 mins ago
+                    </div>
+                </div>
+
+                <!-- Alert 4 -->
+                <div class="card glass alert-card congestion" data-category="congestion">
+                    <div class="alert-header">
+                        <div class="alert-title">
+                            <i class="fa-solid fa-traffic-light" style="color: var(--warning);"></i>
+                            Downtown Crossing
+                        </div>
+                        <span class="badge congestion">SLOW TRAFFIC</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Stop-and-go traffic reported in the downtown sector due to holiday shopping rush.</p>
+                    <div class="alert-time">
+                        <i class="fa-regular fa-clock"></i> Updated 1 hour ago
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Smart City Services Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+    <script src="js/traffic.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Complaint - Smart City Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/complaint.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-city"></i>
+                Smart City
+            </a>
+            <div class="mobile-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="complaint.html" class="active">Complaint</a>
+                <a href="bill.html">Bills</a>
+                <a href="traffic.html">Traffic</a>
+                <a href="parking.html">Parking</a>
+                <a href="dashboard.html">Admin Portal</a>
+                <a href="contact.html">Contact</a>
+                <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+                <button class="theme-toggle" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Register a Complaint</h1>
+            <p>Help us keep the city clean and safe by reporting issues.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card glass form-container">
+            <form id="complaintForm" data-success-popup="complaintSuccessModal">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <input type="tel" id="mobile" class="form-control" placeholder="Enter 10-digit number" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="ward">Ward / Area</label>
+                        <input type="text" id="ward" class="form-control" placeholder="E.g. Ward 4, Downtown" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="complaintType">Complaint Type</label>
+                        <select id="complaintType" class="form-control" required>
+                            <option value="">Select type...</option>
+                            <option value="garbage">Garbage Collection</option>
+                            <option value="water">Water Leakage</option>
+                            <option value="street_light">Street Light</option>
+                            <option value="road_damage">Road Damage</option>
+                            <option value="sewage">Sewage Issue</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Complaint Description</label>
+                    <textarea id="description" class="form-control" rows="4" placeholder="Provide details about the issue..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Image (Optional)</label>
+                    <label class="file-upload">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 10px; color: var(--accent-blue);"></i>
+                        <p>Click to upload or drag and drop<br><span style="font-size: 0.8rem;">SVG, PNG, JPG or GIF (max. 5MB)</span></p>
+                        <input type="file" accept="image/*">
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block mt-4">Submit Complaint</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="complaintSuccessModal">
+        <div class="modal-content">
+            <div class="modal-icon success">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3>Complaint Registered!</h3>
+            <p class="mb-4" style="color: var(--text-muted);">Your complaint has been successfully submitted. Your reference ID is <strong>#CMP-8492</strong>.</p>
+            <button class="btn btn-primary btn-block modal-close-btn">Done</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Smart City Services Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+</html>

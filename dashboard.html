@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Smart City Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container" style="max-width: 100%; padding: 0 30px;">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-city"></i>
+                Smart City
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="login.html" class="btn btn-outline" style="padding: 6px 15px;">Logout</a>
+                <button class="theme-toggle" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <div class="dashboard-header">
+                <div>
+                    <h2>Admin Portal</h2>
+                    <p style="color: var(--text-muted);">Welcome back, Admin. Here's what's happening today.</p>
+                </div>
+
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <div class="stat-details">
+                        <h3>1,284</h3>
+                        <p>Total Complaints</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-yellow"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="stat-details">
+                        <h3>342</h3>
+                        <p>Pending Complaints</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-green"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="stat-details">
+                        <h3>942</h3>
+                        <p>Resolved Complaints</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-purple"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                    <div class="stat-details">
+                        <h3>₹8.4M</h3>
+                        <p>Total Payments</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="stat-card">
+                    <div class="stat-icon icon-blue"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-details">
+                        <h3>48,500</h3>
+                        <p>Active Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon icon-red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="stat-details">
+                        <h3>24</h3>
+                        <p>Active Traffic Alerts</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 1 -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h4>Monthly Payments Collection</h4>
+                    <canvas id="barChart" height="100"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h4>Complaint Categories</h4>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Charts Row 2 & DevSecOps Panel -->
+            <div class="charts-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="chart-card">
+                    <h4>Daily Platform Visitors</h4>
+                    <canvas id="lineChart" height="150"></canvas>
+                </div>
+
+                <!-- DevSecOps Server Monitoring Panel -->
+                <div class="devsecops-panel">
+                    <div class="panel-header">
+                        <h4><i class="fa-solid fa-server"></i> CI/CD Pipeline & Server Health</h4>
+                        <div class="status-dot" title="System Online"></div>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">CPU USAGE</div>
+                            <div class="metric-value">42%</div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">MEMORY USAGE</div>
+                            <div class="metric-value">6.8 GB</div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: 68%; background: #fbbf24;"></div>
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">SYSTEM UPTIME</div>
+                            <div class="metric-value">99.98%</div>
+                            <div class="metric-label" style="margin-top:10px;">45d 12h 30m</div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 20px; font-size: 0.85rem; color: #94a3b8; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 15px;">
+                        <i class="fa-solid fa-shield-halved" style="color: #10b981; margin-right: 5px;"></i> Latest
+                        Security Scan: Passed (0 Vulnerabilities)
+                    </div>
+
+                    <div class="security-logs" id="securityLogs">
+                        <!-- Logs will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Complaints Table -->
+            <div class="data-table-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h4>Recent Citizen Complaints</h4>
+                    <span class="devsecops-badge"><i class="fa-solid fa-database"></i> Live Data</span>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Citizen</th>
+                            <th>Category</th>
+                            <th>Area</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="complaintsTableBody">
+                        <!-- Data will be injected here by dashboard.js -->
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

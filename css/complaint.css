@@ -1,0 +1,48 @@
+.page-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.page-header h1 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.form-container {
+    max-width: 800px;
+    margin: -40px auto 60px;
+    position: relative;
+    z-index: 10;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.file-upload {
+    border: 2px dashed #cbd5e1;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: border-color var(--transition-fast);
+}
+
+.file-upload:hover {
+    border-color: var(--accent-blue);
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}

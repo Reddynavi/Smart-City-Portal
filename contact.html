@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Smart City Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/contact.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-city"></i>
+                Smart City
+            </a>
+            <div class="mobile-toggle">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="complaint.html">Complaint</a>
+                <a href="bill.html">Bills</a>
+                <a href="traffic.html">Traffic</a>
+                <a href="parking.html">Parking</a>
+                <a href="dashboard.html">Admin Portal</a>
+                <a href="contact.html" class="active">Contact</a>
+                <a href="login.html" class="btn btn-primary" style="color: white;">Login</a>
+                <button class="theme-toggle" title="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="contact-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Have questions or need assistance? Reach out to the municipal corporation through our helplines or send us a message directly.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="contact-container">
+            <!-- Contact Info -->
+            <div>
+                <h3 class="mb-4">Get In Touch</h3>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="info-details">
+                        <h4>Head Office</h4>
+                        <p>123 Smart Avenue, Tech District<br>Smart City, SC 10001</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="info-details">
+                        <h4>Helpline Numbers</h4>
+                        <p>General: +1 (800) 123-4567<br>Emergency: 112</p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="info-details">
+                        <h4>Email Support</h4>
+                        <p>support@smartcity.gov<br>complaints@smartcity.gov</p>
+                    </div>
+                </div>
+
+                <!-- Google Maps Placeholder -->
+                <div class="map-placeholder">
+                    <i class="fa-solid fa-map-location-dot" style="margin-right: 10px;"></i> Google Maps Integration Placeholder
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div>
+                <div class="card glass">
+                    <h3 class="mb-4">Send a Message</h3>
+                    <form onsubmit="event.preventDefault(); alert('Message Sent Successfully!'); this.reset();">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" class="form-control" placeholder="How can we help?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" class="form-control" rows="5" placeholder="Type your message here..." required style="resize: vertical;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Smart City Services Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+</body>
+</html>
