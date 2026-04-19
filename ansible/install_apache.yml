@@ -1,0 +1,53 @@
+---
+# ============================================
+# Install Apache Web Server
+# ============================================
+- name: Install and Configure Apache on EC2
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Update system packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install Apache HTTP Server
+      yum:
+        name: httpd
+        state: present
+
+    - name: Install Node.js for backend
+      shell: |
+        curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
+        yum install -y nodejs
+
+    - name: Start and enable Apache
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Ensure firewall allows HTTP
+      shell: |
+        if command -v firewall-cmd &> /dev/null; then
+          firewall-cmd --permanent --add-service=http
+          firewall-cmd --reload
+        fi
+      ignore_errors: yes
+
+    - name: Create health check page
+      copy:
+        content: "<h1>{{ inventory_hostname }} - Smart City Portal - Healthy</h1>"
+        dest: /var/www/html/health.html
+        mode: "0644"
+
+    - name: Verify Apache is running
+      uri:
+        url: "http://localhost/health.html"
+        status_code: 200
+      register: result
+
+    - name: Show health check result
+      debug:
+        msg: "Apache is running. Health check: {{ result.status }}"
