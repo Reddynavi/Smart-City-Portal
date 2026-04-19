@@ -14,7 +14,6 @@ pipeline {
         BLUE_TG_ARN     = credentials('blue-tg-arn')
         GREEN_TG_ARN    = credentials('green-tg-arn')
         AWS_REGION      = 'ap-south-1'
-        SSH_KEY         = credentials('ec2-ssh-key')
         ZAP_REPORT      = 'reports/zap-report.html'
         NMAP_REPORT     = 'reports/nmap-report.txt'
         NIKTO_REPORT    = 'reports/nikto-report.html'
@@ -143,26 +142,28 @@ pipeline {
         stage('5. Deploy to Green') {
             steps {
                 echo '🟢 Deploying to Green server...'
-                sh '''
-                    echo "Deploying via Ansible..."
-                    ansible-playbook -i ansible/inventory.ini \
-                        ansible/deploy_app.yml \
-                        --extra-vars "target_env=green" \
-                        --private-key ${SSH_KEY} \
-                        -e "ansible_ssh_common_args='-o StrictHostKeyChecking=no'" \
-                        || {
-                            echo "⚠️ Ansible not available. Using SCP fallback..."
+                withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
+                    sh '''
+                        echo "Deploying via Ansible..."
+                        ansible-playbook -i ansible/inventory.ini \
+                            ansible/deploy_app.yml \
+                            --extra-vars "target_env=green" \
+                            --private-key ${SSH_KEY} \
+                            -e "ansible_ssh_common_args='-o StrictHostKeyChecking=no'" \
+                            || {
+                                echo "⚠️ Ansible not available. Using SCP fallback..."
 
-                            # SCP deployment fallback
-                            scp -o StrictHostKeyChecking=no -i ${SSH_KEY} -r \
-                                *.html css/ js/ public/ \
-                                ec2-user@${GREEN_IP}:/tmp/smart-city/
+                                # SCP deployment fallback
+                                scp -o StrictHostKeyChecking=no -i ${SSH_KEY} -r \
+                                    *.html css/ js/ public/ \
+                                    ec2-user@${GREEN_IP}:/tmp/smart-city/
 
-                            ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} \
-                                ec2-user@${GREEN_IP} \
-                                "sudo cp -r /tmp/smart-city/* /var/www/html/ && sudo systemctl restart httpd"
-                        }
-                '''
+                                ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} \
+                                    ec2-user@${GREEN_IP} \
+                                    "sudo cp -r /tmp/smart-city/* /var/www/html/ && sudo systemctl restart httpd"
+                            }
+                    '''
+                }
             }
         }
 
