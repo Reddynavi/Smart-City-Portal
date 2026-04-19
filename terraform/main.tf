@@ -305,8 +305,8 @@ resource "aws_instance" "jenkins" {
     #!/bin/bash
     yum update -y
     
-    # Install Java 17
-    yum install java-17-amazon-corretto -y
+    # Install Java 21 (Jenkins requirement)
+    yum install java-21-amazon-corretto -y
     
     # Install Jenkins
     wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
@@ -326,14 +326,27 @@ resource "aws_instance" "jenkins" {
     yum install git -y
     
     # Install Ansible
-    python3 -m pip install ansible
+    yum install ansible -y
+    
+    # Install Node.js and NPM
+    dnf install nodejs -y
+    
+    # Install Trivy
+    cat <<EOT > /etc/yum.repos.d/trivy.repo
+[trivy]
+name=Trivy repository
+baseurl=https://aquasecurity.github.io/trivy-repo/rpm/releases/\$basearch/
+gpgcheck=0
+enabled=1
+EOT
+    yum install trivy -y
     
     # Install Terraform
     yum install -y yum-utils
     yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
     yum -y install terraform
     
-    # Restart Jenkins so it picks up the docker group
+    # Restart Jenkins to pick up group changes
     systemctl restart jenkins
   EOF
 
