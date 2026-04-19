@@ -103,6 +103,7 @@ pipeline {
                         echo "✅ ZAP scan complete. Report: ${ZAP_REPORT}"
                     else
                         echo "⚠️ ZAP not installed. Running via Docker..."
+                        chmod 777 reports
                         docker run --rm -v $(pwd)/reports:/zap/wrk \
                             ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
                             -t http://${GREEN_IP}/ \
