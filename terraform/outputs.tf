@@ -2,12 +2,12 @@
 # Terraform Outputs
 # ============================================
 
-output "blue_server_ip" {
+output "blue_public_ip" {
   description = "Public IP of the Blue EC2 instance"
   value       = aws_instance.blue.public_ip
 }
 
-output "green_server_ip" {
+output "green_public_ip" {
   description = "Public IP of the Green EC2 instance"
   value       = aws_instance.green.public_ip
 }
@@ -27,7 +27,7 @@ output "green_target_group_arn" {
   value       = aws_lb_target_group.green.arn
 }
 
-output "alb_listener_arn" {
+output "listener_arn" {
   description = "ARN of the ALB Listener"
   value       = aws_lb_listener.http.arn
 }

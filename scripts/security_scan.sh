@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================
 # Smart City Portal - Security Scan Script
-# Runs: OWASP ZAP, Nmap, Nikto, Trivy, Lynis
+# Runs: OWASP ZAP, Nmap, Nikto, Gitleaks, Trivy, Lynis
 # ============================================
 
 set -e
@@ -14,7 +14,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 TARGET_URL="${1:-http://localhost}"
-REPORT_DIR="./reports"
+REPORT_DIR="./security_reports"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 echo -e "${BLUE}============================================${NC}"
@@ -26,7 +26,7 @@ echo -e "${BLUE}============================================${NC}"
 mkdir -p "$REPORT_DIR"
 
 # ── 1. OWASP ZAP Scan ──
-echo -e "\n${RED}[1/5] 🔴 OWASP ZAP - Web Application Security Scanner${NC}"
+echo -e "\n${RED}[1/6] 🔴 OWASP ZAP - Web Application Security Scanner${NC}"
 echo "────────────────────────────────────────────"
 
 if command -v docker &> /dev/null; then
@@ -52,7 +52,7 @@ else
 fi
 
 # ── 2. Nmap Port Scan ──
-echo -e "\n${BLUE}[2/5] 🔵 Nmap - Network & Port Scanner${NC}"
+echo -e "\n${BLUE}[2/6] 🔵 Nmap - Network & Port Scanner${NC}"
 echo "────────────────────────────────────────────"
 
 if command -v nmap &> /dev/null; then
@@ -76,7 +76,7 @@ else
 fi
 
 # ── 3. Nikto Web Vulnerability Scanner ──
-echo -e "\n${YELLOW}[3/5] 🟡 Nikto - Web Server Scanner${NC}"
+echo -e "\n${YELLOW}[3/6] 🟡 Nikto - Web Server Scanner${NC}"
 echo "────────────────────────────────────────────"
 
 if command -v nikto &> /dev/null; then
@@ -90,8 +90,28 @@ else
     echo "   Install: sudo apt install nikto"
 fi
 
-# ── 4. Trivy Container/FS Scanner ──
-echo -e "\n${BLUE}[4/5] 🔷 Trivy - Filesystem Vulnerability Scanner${NC}"
+# ── 4. Gitleaks - Secret Scanner ──
+echo -e "\n${RED}[4/6] 🔑 Gitleaks - Secret Scanning${NC}"
+echo "────────────────────────────────────────────"
+
+if command -v gitleaks &> /dev/null; then
+    gitleaks detect --source . \
+        --report-path "$REPORT_DIR/gitleaks-report-${TIMESTAMP}.json" \
+        --report-format json || true
+    echo -e "${GREEN}✅ Gitleaks scan complete → ${REPORT_DIR}/gitleaks-report-${TIMESTAMP}.json${NC}"
+elif command -v docker &> /dev/null; then
+    echo "Running Gitleaks via Docker..."
+    docker run --rm -v "$(pwd):/path" \
+        zricethezav/gitleaks:latest detect --source /path \
+        --report-path "/path/$REPORT_DIR/gitleaks-report-${TIMESTAMP}.json" \
+        --report-format json || true
+    echo -e "${GREEN}✅ Gitleaks Docker scan complete${NC}"
+else
+    echo -e "${YELLOW}⚠️  Gitleaks not found.${NC}"
+fi
+
+# ── 5. Trivy Container/FS Scanner ──
+echo -e "\n${BLUE}[5/6] 🔷 Trivy - Filesystem Vulnerability Scanner${NC}"
 echo "────────────────────────────────────────────"
 
 if command -v trivy &> /dev/null; then
@@ -114,8 +134,8 @@ else
     echo "   Install: https://aquasecurity.github.io/trivy/"
 fi
 
-# ── 5. Lynis System Audit ──
-echo -e "\n${GREEN}[5/5] 🟢 Lynis - System Security Audit${NC}"
+# ── 6. Lynis System Audit ──
+echo -e "\n${GREEN}[6/6] 🟢 Lynis - System Security Audit${NC}"
 echo "────────────────────────────────────────────"
 
 if command -v lynis &> /dev/null; then

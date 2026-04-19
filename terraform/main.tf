@@ -157,6 +157,37 @@ resource "aws_security_group" "web_sg" {
 }
 
 # ============================================
+# IAM ROLE FOR CLOUDWATCH
+# ============================================
+
+resource "aws_iam_role" "cloudwatch_role" {
+  name = "${var.project_name}-CloudWatchRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_attach" {
+  role       = aws_iam_role.cloudwatch_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
+resource "aws_iam_instance_profile" "cloudwatch_profile" {
+  name = "${var.project_name}-InstanceProfile"
+  role = aws_iam_role.cloudwatch_role.name
+}
+
+# ============================================
 # EC2 INSTANCES - BLUE & GREEN
 # ============================================
 
@@ -166,6 +197,7 @@ resource "aws_instance" "blue" {
   key_name               = var.key_name
   subnet_id              = aws_subnet.public_a.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
+  iam_instance_profile   = aws_iam_instance_profile.cloudwatch_profile.name
 
   user_data = <<-EOF
     #!/bin/bash
@@ -189,6 +221,7 @@ resource "aws_instance" "green" {
   key_name               = var.key_name
   subnet_id              = aws_subnet.public_b.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
+  iam_instance_profile   = aws_iam_instance_profile.cloudwatch_profile.name
 
   user_data = <<-EOF
     #!/bin/bash
@@ -225,7 +258,7 @@ resource "aws_lb" "main" {
 
 # Blue Target Group (initially active)
 resource "aws_lb_target_group" "blue" {
-  name     = "${lower(var.project_name)}-blue-tg"
+  name     = "blue-target-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
@@ -246,7 +279,7 @@ resource "aws_lb_target_group" "blue" {
 
 # Green Target Group
 resource "aws_lb_target_group" "green" {
-  name     = "${lower(var.project_name)}-green-tg"
+  name     = "green-target-group"
   port     = 80
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
@@ -355,5 +388,40 @@ EOT
     Project     = var.project_name
     Environment = "CI/CD"
   }
+}
+
+# ============================================
+# CLOUDWATCH LOGS & DASHBOARD
+# ============================================
+
+resource "aws_cloudwatch_log_group" "app_logs" {
+  name              = "/aws/ec2/${var.project_name}/app"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_dashboard" "main" {
+  dashboard_name = "${var.project_name}-Dashboard"
+
+  dashboard_body = jsonencode({
+    widgets = [
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+        properties = {
+          metrics = [
+            ["AWS/EC2", "CPUUtilization", "InstanceId", aws_instance.blue.id],
+            ["AWS/EC2", "CPUUtilization", "InstanceId", aws_instance.green.id]
+          ]
+          period = 300
+          stat   = "Average"
+          region = var.aws_region
+          title  = "EC2 CPU Utilization"
+        }
+      }
+    ]
+  })
 }
 
