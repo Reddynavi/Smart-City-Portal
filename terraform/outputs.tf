@@ -36,3 +36,8 @@ output "vpc_id" {
   description = "VPC ID"
   value       = aws_vpc.main.id
 }
+
+output "jenkins_server_ip" {
+  description = "Public IP of the Jenkins CI/CD instance"
+  value       = aws_instance.jenkins.public_ip
+}

@@ -5,7 +5,7 @@ variable "aws_region" {
 
 variable "instance_type" {
   description = "EC2 instance type"
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "key_name" {
@@ -15,7 +15,7 @@ variable "key_name" {
 
 variable "ami_id" {
   description = "Amazon Linux 2023 AMI ID (ap-south-1)"
-  default     = "ami-0e35ddab05955cf57"
+  default     = "ami-0e12ffc2dd465f6e4"
 }
 
 variable "project_name" {

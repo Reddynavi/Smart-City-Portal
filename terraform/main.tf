@@ -134,6 +134,15 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # Jenkins UI
+  ingress {
+    description = "Jenkins UI"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -280,3 +289,58 @@ resource "aws_lb_listener" "http" {
     target_group_arn = aws_lb_target_group.blue.arn
   }
 }
+
+# ============================================
+# JENKINS CI/CD SERVER
+# ============================================
+
+resource "aws_instance" "jenkins" {
+  ami                    = var.ami_id
+  instance_type          = "t3.micro" # Free tier eligible
+  key_name               = var.key_name
+  subnet_id              = aws_subnet.public_a.id
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+
+  user_data = <<-EOF
+    #!/bin/bash
+    yum update -y
+    
+    # Install Java 17
+    yum install java-17-amazon-corretto -y
+    
+    # Install Jenkins
+    wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    yum install jenkins -y
+    systemctl enable jenkins
+    systemctl start jenkins
+    
+    # Install Docker
+    yum install docker -y
+    systemctl enable docker
+    systemctl start docker
+    usermod -aG docker ec2-user
+    usermod -aG docker jenkins
+    
+    # Install Git
+    yum install git -y
+    
+    # Install Ansible
+    python3 -m pip install ansible
+    
+    # Install Terraform
+    yum install -y yum-utils
+    yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+    yum -y install terraform
+    
+    # Restart Jenkins so it picks up the docker group
+    systemctl restart jenkins
+  EOF
+
+  tags = {
+    Name        = "${var.project_name}-Jenkins"
+    Project     = var.project_name
+    Environment = "CI/CD"
+  }
+}
+
