@@ -174,7 +174,7 @@ pipeline {
         }
         always {
             echo '📊 Pipeline completed. Archiving security reports...'
-            archiveArtifacts artifacts: "${REPORT_DIR}/**", allowEmptyArchive: true
+            archiveArtifacts artifacts: "${env.REPORT_DIR}/**", allowEmptyArchive: true
             cleanWs()
         }
     }
