@@ -14,3 +14,8 @@ terraform/terraform.tfstate.backup
 
 # Windows installers
 *.msi
+*.log
+*.txt
+*.sh
+*.ps1
+*.groovy
