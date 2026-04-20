@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         REPO_URL   = 'https://github.com/Reddynavi/Smart-City-Portal.git'
-        AWS_REGION = 'ap-south-1'
         REPORT_DIR = 'security_reports'
     }
 
@@ -22,8 +21,8 @@ pipeline {
             steps {
                 echo '🔨 Installing dependencies...'
                 sh '''
-                    node -v || true
-                    npm -v || true
+                    node -v
+                    npm -v
                     npm install
                     mkdir -p ${REPORT_DIR}
                 '''
@@ -45,34 +44,35 @@ pipeline {
             steps {
                 echo '🏗️ Creating production build...'
                 sh '''
-                    npm run build || echo "Build skipped"
+                    npm run build
                 '''
             }
         }
 
-        // ─── STAGE 5: DEPLOY (LOCAL NGINX) ───
+        // ─── STAGE 5: DEPLOY (NGINX - AMAZON LINUX) ───
         stage('5. Deploy to Server') {
             steps {
                 echo '🚀 Deploying to Nginx...'
                 sh '''
-                    # Install nginx if not exists
-                    sudo apt-get update
-                    sudo apt-get install -y nginx
+                    # Install nginx (Amazon Linux)
+                    sudo yum install -y nginx
 
                     # Remove old files
-                    sudo rm -rf /var/www/html/*
+                    sudo rm -rf /usr/share/nginx/html/*
 
-                    # Copy build files (for Vite/React)
+                    # Copy build files
                     if [ -d "dist" ]; then
-                        sudo cp -r dist/* /var/www/html/
+                        sudo cp -r dist/* /usr/share/nginx/html/
                     elif [ -d "build" ]; then
-                        sudo cp -r build/* /var/www/html/
+                        sudo cp -r build/* /usr/share/nginx/html/
                     else
                         echo "No build folder found"
+                        exit 1
                     fi
 
                     # Start nginx
-                    sudo systemctl restart nginx
+                    sudo systemctl start nginx
+                    sudo systemctl enable nginx
                 '''
             }
         }
