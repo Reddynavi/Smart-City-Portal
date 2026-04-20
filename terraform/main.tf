@@ -329,7 +329,7 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_instance" "jenkins" {
   ami                    = var.ami_id
-  instance_type          = "t3.micro" # Free tier eligible
+  instance_type          = var.instance_type
   key_name               = var.key_name
   subnet_id              = aws_subnet.public_a.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
